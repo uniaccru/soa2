@@ -1,0 +1,6 @@
+# Нужен только если WildFly запущен НЕ в docker.
+#  1) поместить postgresql-<версия>.jar в <WILDFLY>/standalone/deployments/
+#  2) подставить имя драйвера (= имя jar-файла) и параметры БД
+# Запуск: <WILDFLY>/bin/jboss-cli.sh --connect --file=wildfly/setup-datasource.cli
+data-source add --name=DragonDS --jndi-name=java:/jdbc/DragonDS --driver-name=postgresql-42.7.4.jar --connection-url=jdbc:postgresql://localhost:5432/dragons --user-name=dragons --password=dragons --min-pool-size=1 --max-pool-size=10 --check-valid-connection-sql="SELECT 1" --validate-on-match=true
+/subsystem=datasources/data-source=DragonDS:test-connection-in-pool

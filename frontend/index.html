@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Драконы</title>
+<style>
+  body { font-family: sans-serif; margin: 16px; }
+  table { border-collapse: collapse; font-size: 13px; }
+  th, td { border: 1px solid #999; padding: 2px 6px; }
+  th { background: #eee; }
+  label { display: inline-block; margin: 2px 10px 2px 0; white-space: nowrap; }
+  input, select { width: 110px; }
+  #status { position: sticky; top: 0; background: #fff; padding: 6px 0; min-height: 1.4em; }
+  .err { color: #b00; font-weight: bold; }
+  .ok { color: #060; }
+  pre { background: #f4f4f4; padding: 8px; min-height: 2em; }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<h1>Драконы</h1>
+<div id="status"></div>
+
+<h2>Коллекция (сервис 1)</h2>
+<div id="filters"></div>
+<p>
+  Сортировка: <select id="sortBy"></select>
+  <select id="sortOrder"><option value="asc">по возрастанию</option><option value="desc">по убыванию</option></select>
+  На странице: <input id="size" type="number" value="10" min="1" style="width:60px">
+  <button id="apply">Применить</button>
+  <button id="reset">Сбросить фильтры</button>
+</p>
+<div id="table"></div>
+<p id="pager"></p>
+
+<h2 id="formTitle">Создать дракона</h2>
+<form id="dragonForm">
+  <div id="formFields"></div>
+  <button type="submit" id="submitBtn">Создать</button>
+  <button type="button" id="cancelEdit" hidden>Отмена</button>
+</form>
+
+<h2>Другие операции (сервис 1)</h2>
+<p>Получить по id: <input id="getId"> <button id="getBtn">Получить</button></p>
+<p>Удалить всех драконов с weight: <input id="delWeight"> <button id="delWeightBtn">Удалить</button></p>
+<p><button id="avgBtn">Средний возраст</button> <button id="descBtn">Уникальные description</button></p>
+
+<h2>Сервис убийц драконов (сервис 2)</h2>
+<p>
+  Дракон из пещеры с глубиной не более <input id="caveMax">
+  <select id="caveMode" style="width:150px">
+    <option value="deepest">самой глубокой</option>
+    <option value="shallowest">самой мелкой</option>
+  </select>
+  <button id="caveBtn">Найти</button>
+</p>
+<p>
+  Создать команду: id <input id="teamId" style="width:70px">
+  название <input id="teamName">
+  размер <input id="teamSize" style="width:70px">
+  id стартовой пещеры <input id="teamCave" style="width:70px">
+  <button id="teamBtn">Создать</button>
+</p>
+
+<h2>Результат</h2>
+<pre id="result"></pre>
+
+<script src="app.js"></script>
+</body>
+</html>

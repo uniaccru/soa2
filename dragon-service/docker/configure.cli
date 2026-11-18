@@ -1,0 +1,12 @@
+# Выполняется при сборке образа: драйвер Postgres + datasource + HTTPS
+embed-server --server-config=standalone.xml --std-out=echo
+module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=javax.api,jakarta.transaction.api
+/subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-class-name=org.postgresql.Driver)
+data-source add --name=DragonDS --jndi-name=java:/jdbc/DragonDS --driver-name=postgresql --connection-url=jdbc:postgresql://db:5432/dragons --user-name=dragons --password=dragons --min-pool-size=1 --max-pool-size=10 --check-valid-connection-sql="SELECT 1" --validate-on-match=true
+
+# HTTPS с нашим сертификатом вместо автогенерированного
+/subsystem=elytron/key-store=soaKS:add(path=server.p12, relative-to=jboss.server.config.dir, type=PKCS12, credential-reference={clear-text=changeit})
+/subsystem=elytron/key-manager=soaKM:add(key-store=soaKS, credential-reference={clear-text=changeit})
+/subsystem=elytron/server-ssl-context=soaSSC:add(key-manager=soaKM)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context, value=soaSSC)
+stop-embedded-server
